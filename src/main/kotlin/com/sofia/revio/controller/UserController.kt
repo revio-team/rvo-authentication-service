@@ -1,6 +1,8 @@
 package com.sofia.revio.controller
 
 import com.sofia.revio.model.User
+import com.sofia.revio.model.request.UserLogin
+import com.sofia.revio.model.request.UserRequest
 import com.sofia.revio.service.UserService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -24,8 +26,15 @@ class UserController(
 
     @PostMapping
     fun registerUser(
-        @Valid @RequestBody user: User
+        @Valid @RequestBody userRequest: UserRequest
     ): User {
-        return userService.save(user)
+        return userService.save(userRequest)
     }
+    @PostMapping("/login")
+    fun login(
+        @RequestBody userLogin: UserLogin
+    ): Boolean {
+        return userService.login(userLogin.email, userLogin.password)
+    }
+
 }

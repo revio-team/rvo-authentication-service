@@ -1,4 +1,14 @@
 spring:
+  security:
+    enabled: false
   data:
     mongodb:
-      uri: {$MONGO_URI}
+      uri: ${MONGO_URI}
+
+management:
+  security:
+    enabled: false
+
+security:
+  basic:
+    enabled: false

@@ -4,7 +4,6 @@ import com.sofia.revio.validation.ValidEmail
 import org.jetbrains.annotations.NotNull
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Document
 data class User(
@@ -18,9 +17,4 @@ data class User(
     val active: Boolean?,
     val slackId: String?,
     val avatar: String?
-){
-    init {
-        val passwordEncoder: BCryptPasswordEncoder? =null
-        this.password = passwordEncoder!!.encode(this.password)
-    }
-}
+)
