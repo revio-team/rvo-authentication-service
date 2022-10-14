@@ -40,7 +40,27 @@ class UserService(
         }
         return generateToken(user)
     }
-    fun generateToken(user: User): String{
+
+    fun generateToken(user: User): String {
         return jwtTokenService.generateToken(user)
+    }
+
+    fun validatetoken(requestToken: String): UserService {
+        val isValid = requestToken.contains(BEARER_STRING)
+        if (isValid.not()) {
+            throw Exception("Invalid token.")
+        }
+        val sanitizedToken = requestToken.removePrefix(BEARER_STRING)
+
+        val username = jwtTokenService.getUsernameFromToken(sanitizedToken)
+        val user = userRepository.findByUsername(username) ?: throw Exception("Invalid token.")
+        if (jwtTokenService.validateToken(sanitizedToken, user)) {
+            return this
+        }
+        throw Exception("Invalid token")
+    }
+
+    companion object {
+        const val BEARER_STRING = "Bearer "
     }
 }
