@@ -11,7 +11,8 @@ import kotlin.Exception
 @Service
 class UserService(
     private val userRepository: UserRepository,
-    private val bCrypt: BCryptPasswordEncoder = BCryptPasswordEncoder()
+    private val bCrypt: BCryptPasswordEncoder = BCryptPasswordEncoder(),
+    private val jwtTokenService: JwtTokenService
 ) {
 
     fun getAll(): MutableList<User> {
@@ -31,12 +32,15 @@ class UserService(
         return userRepository.findByEmail(email) != null
     }
 
-    fun login(email: String, password: String): Boolean {
+    fun login(email: String, password: String): String {
         val user = userRepository.findByEmail(email) ?: throw Exception("User not existent")
 
         if (!bCrypt.matches(password, user.password)) {
-            return false
+            throw Exception("E-mail or password incorrect.")
         }
-        return true
+        return generateToken(user)
+    }
+    fun generateToken(user: User): String{
+        return jwtTokenService.generateToken(user)
     }
 }

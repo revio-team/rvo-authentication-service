@@ -4,6 +4,8 @@ import com.sofia.revio.model.User
 import com.sofia.revio.model.request.UserLogin
 import com.sofia.revio.model.request.UserRequest
 import com.sofia.revio.service.UserService
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,13 +29,20 @@ class UserController(
     @PostMapping
     fun registerUser(
         @Valid @RequestBody userRequest: UserRequest
-    ): User {
-        return userService.save(userRequest)
+    ): ResponseEntity<User> {
+        val user = userService.save(userRequest)
+        val token = userService.generateToken(user)
+
+        val responseHeaders = HttpHeaders()
+        responseHeaders.set("token", token)
+
+        return ResponseEntity(responseHeaders, HttpStatus.CREATED)
     }
+
     @PostMapping("/login")
     fun login(
         @RequestBody userLogin: UserLogin
-    ): Boolean {
+    ): String {
         return userService.login(userLogin.email, userLogin.password)
     }
 

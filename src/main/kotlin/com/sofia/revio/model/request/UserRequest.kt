@@ -8,6 +8,6 @@ data class UserRequest(
 
 fun UserRequest.toUser(): User {
     return User(
-        null, this.name, this.email, this.username, this.password, this.scope, null, null, null
+        null, this.name, this.email, this.username, this.password, this.scope, true, null, null
     )
 }
