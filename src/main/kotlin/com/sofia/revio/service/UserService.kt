@@ -15,9 +15,12 @@ class UserService(
     private val jwtTokenService: JwtTokenService
 ) {
 
+    lateinit var user: User
+
     fun getAll(): MutableList<User> {
         return userRepository.findAll()
     }
+
 
     fun save(userRequest: UserRequest): User {
         if (emailExist(userRequest.email)) {
@@ -53,7 +56,7 @@ class UserService(
         val sanitizedToken = requestToken.removePrefix(BEARER_STRING)
 
         val username = jwtTokenService.getUsernameFromToken(sanitizedToken)
-        val user = userRepository.findByUsername(username) ?: throw Exception("Invalid token.")
+        this.user = userRepository.findByUsername(username) ?: throw Exception("Invalid token.")
         if (jwtTokenService.validateToken(sanitizedToken, user)) {
             return this
         }

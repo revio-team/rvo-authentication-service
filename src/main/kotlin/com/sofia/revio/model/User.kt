@@ -14,6 +14,7 @@ data class User(
     @field:NotNull("username should not be null") val username: String,
     @field:NotNull("Password should not be null") var password: String,
     @field:NotNull("Scope should not be null") val scope: String?,
+    val role: String = "dev",
     val active: Boolean? = null,
     val slackId: String?,
     val avatar: String?
