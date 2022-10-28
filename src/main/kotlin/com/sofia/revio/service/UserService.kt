@@ -53,23 +53,23 @@ class UserService(
     fun validateToken(requestToken: String): UserService {
 
         val isValid = requestToken.contains(BEARER_STRING)
-        println("UserService, validateToken: $requestToken")
+        logger.info("UserService, validateToken: $requestToken")
 
         if (isValid.not()) {
-            println("UserService, token is not valid.")
+            logger.info("UserService, token is not valid.")
             throw Exception("Invalid token.")
         }
 
-        println("UserService, sanitizedToken")
+        logger.info("UserService, sanitizedToken")
         val sanitizedToken = requestToken.removePrefix(BEARER_STRING)
 
-        println("UserService, getUsernameFromToken")
+        logger.info("UserService, getUsernameFromToken")
         val username = jwtTokenService.getUsernameFromToken(sanitizedToken)
 
-        println("UserService, findByUsername")
+        logger.info("UserService, findByUsername")
         this.user = userRepository.findByUsername(username) ?: throw Exception("Invalid token.")
 
-        println("UserService, validateTokenSanitizedToken: $sanitizedToken")
+        logger.info("UserService, validateTokenSanitizedToken: $sanitizedToken")
         if (jwtTokenService.validateToken(sanitizedToken, user)) {
             return this
         }

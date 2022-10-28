@@ -20,7 +20,7 @@ class AuthenticationController(
     fun validate(
         @RequestBody token: Token
     ): UserBasic {
-        println("AuthenticationController, validate:${token.authorization}")
+        logger.info("AuthenticationController, validate:${token.authorization}")
         return authService.validate(token.authorization)
     }
 }

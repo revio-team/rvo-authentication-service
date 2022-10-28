@@ -10,7 +10,7 @@ class AuthenticationService(
 ) {
     val logger: Logger = Logger.getLogger(this.javaClass.name)
     fun validate(authorization: String): UserBasic {
-        println("AuthenticationService, validate:${authorization}")
+        logger.info("AuthenticationService, validate:${authorization}")
         val user = userService.validateToken(authorization).user
 
         return UserBasic(
