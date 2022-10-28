@@ -4,9 +4,11 @@ import com.sofia.revio.model.User
 import com.sofia.revio.model.request.UserRequest
 import com.sofia.revio.model.request.toUser
 import com.sofia.revio.repository.UserRepository
+import org.jboss.logging.Logger
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import kotlin.Exception
+import kotlin.math.log
 
 @Service
 class UserService(
@@ -14,7 +16,7 @@ class UserService(
     private val bCrypt: BCryptPasswordEncoder = BCryptPasswordEncoder(),
     private val jwtTokenService: JwtTokenService
 ) {
-
+    val logger: Logger = Logger.getLogger(this.javaClass.name)
     lateinit var user: User
 
     fun getAll(): MutableList<User> {
@@ -49,14 +51,25 @@ class UserService(
     }
 
     fun validateToken(requestToken: String): UserService {
+
         val isValid = requestToken.contains(BEARER_STRING)
+        println("UserService, validateToken: $requestToken")
+
         if (isValid.not()) {
+            println("UserService, token is not valid.")
             throw Exception("Invalid token.")
         }
+
+        println("UserService, sanitizedToken")
         val sanitizedToken = requestToken.removePrefix(BEARER_STRING)
 
+        println("UserService, getUsernameFromToken")
         val username = jwtTokenService.getUsernameFromToken(sanitizedToken)
+
+        println("UserService, findByUsername")
         this.user = userRepository.findByUsername(username) ?: throw Exception("Invalid token.")
+
+        println("UserService, validateTokenSanitizedToken: $sanitizedToken")
         if (jwtTokenService.validateToken(sanitizedToken, user)) {
             return this
         }
