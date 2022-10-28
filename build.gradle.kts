@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+// docker build -t revio/authentication .
+//docker run -e MONGO_URI=$MONGO_URI -e JWT_SECRET=$JWT_SECRET -p 8080:8080 revio/authentication
 
 plugins {
 	id("org.springframework.boot") version "2.7.1"
@@ -16,10 +18,11 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter")
-	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
-	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.springframework.boot:spring-boot-starter-web:2.7.4")
+	implementation("org.springframework.boot:spring-boot-starter:2.7.5")
+	implementation("org.springframework.boot:spring-boot-starter-actuator:2.7.5")
+	implementation("org.springframework.boot:spring-boot-starter-data-mongodb:2.7.5")
+	implementation("org.springframework.boot:spring-boot-starter-validation:2.7.5")
+	implementation("org.springframework.boot:spring-boot-starter-web:2.7.5")
 	implementation("org.springframework.security:spring-security-core")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
@@ -28,6 +31,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

@@ -1,5 +1,6 @@
 package com.sofia.revio.controller
 
+import com.sofia.revio.model.request.Token
 import com.sofia.revio.model.request.UserBasic
 import com.sofia.revio.service.AuthenticationService
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,8 +16,8 @@ class AuthenticationController(
 
     @PostMapping("/validate")
     fun validate(
-        @RequestBody authorization: String
+        @RequestBody token: Token
     ): UserBasic {
-        return authService.validate(authorization)
+        return authService.validate(token.authorization)
     }
 }

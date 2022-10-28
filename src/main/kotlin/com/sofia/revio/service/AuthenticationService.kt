@@ -9,7 +9,7 @@ class AuthenticationService(
 ) {
 
     fun validate(authorization: String): UserBasic {
-        val user = userService.validatetoken(authorization).user
+        val user = userService.validateToken(authorization).user
         return UserBasic(
             user.id!!, user.username, user.name, user.email, user.role
         )

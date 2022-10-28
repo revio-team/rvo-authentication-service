@@ -48,7 +48,7 @@ class UserService(
         return jwtTokenService.generateToken(user)
     }
 
-    fun validatetoken(requestToken: String): UserService {
+    fun validateToken(requestToken: String): UserService {
         val isValid = requestToken.contains(BEARER_STRING)
         if (isValid.not()) {
             throw Exception("Invalid token.")

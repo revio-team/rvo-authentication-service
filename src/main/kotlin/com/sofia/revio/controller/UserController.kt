@@ -25,7 +25,7 @@ class UserController(
     fun getUsers(
         @RequestHeader("Authorization") requestToken: String
     ): MutableList<User> {
-        return userService.validatetoken(requestToken).getAll()
+        return userService.validateToken(requestToken).getAll()
     }
 
     @PostMapping
