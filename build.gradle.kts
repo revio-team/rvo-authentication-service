@@ -1,6 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-// docker build -t revio/authentication .
-//docker run -e MONGO_URI=$MONGO_URI -e JWT_SECRET=$JWT_SECRET -p 8080:8080 revio/authentication
 
 plugins {
 	id("org.springframework.boot") version "2.7.1"

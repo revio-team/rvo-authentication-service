@@ -6,6 +6,7 @@ import com.sofia.revio.service.AuthenticationService
 import org.jboss.logging.Logger
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -18,9 +19,9 @@ class AuthenticationController(
 
     @PostMapping("/validate")
     fun validate(
-        @RequestBody token: Token
+        @RequestHeader("Authorization") authorization: String
     ): UserBasic {
-        logger.info("AuthenticationController, validate:${token.authorization}")
-        return authService.validate(token.authorization)
+        logger.info("AuthenticationController, validate:${authorization}")
+        return authService.validate(authorization)
     }
 }
