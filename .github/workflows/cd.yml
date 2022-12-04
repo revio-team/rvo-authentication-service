@@ -20,8 +20,8 @@ jobs:
         uses: actions/checkout@main
       - name: Add secrets to Task Definition
         run: |
-          sed -i "s/<jwt_secret>/$JWT_SECRET/g" main.json 
-          sed -i "s/<mongo_uri>/$MONGO_URI/g" main.json
+          sed -i "s/<jwt_secret>/$JWT_SECRET/g" task-definition/main.json 
+          sed -i "s/<mongo_uri>/$MONGO_URI/g" task-definition/main.json
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
