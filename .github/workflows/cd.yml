@@ -13,9 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
+
+
     steps:
       - name: Checkout
         uses: actions/checkout@main
+      - name: Add secrets to Task Definition
+        run: |
+          sed -i "s/<jwt_secret>/$JWT_SECRET/g" main.json 
+          sed -i "s/<mongo_uri>/$MONGO_URI/g" main.json
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          MONGO_URI: ${{ secrets.$MONGO_URI }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -31,15 +40,13 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET}}
-          MONGO_URI: ${{ secrets.MONGO_URI}}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           IMAGE_TAG: ${{ github.sha }}
 
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg JWT_SECRET=$JWT_SECRET --build-arg MONGO_URI=$MONGO_URI . 
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . 
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 

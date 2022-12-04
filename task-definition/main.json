@@ -25,7 +25,16 @@
       "command": [],
       "linuxParameters": null,
       "cpu": 0,
-      "environment": [],
+      "environment": [
+        {
+          "name": "JWT_SECRET",
+          "value": "<jwt_secret>"
+        },
+        {
+          "name": "MONGO_URI",
+          "value": "<mongo_uri>"
+        }
+      ],
       "resourceRequirements": null,
       "ulimits": null,
       "dnsServers": null,
