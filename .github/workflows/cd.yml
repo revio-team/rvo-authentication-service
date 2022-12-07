@@ -24,12 +24,14 @@ jobs:
         with:
           java-version: 1.8
       
-      - name: Setup Gradle and execute
+      - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-        with:
-          arguments: build
-          gradle-executable: gradle/wrapper/gradle-wrapper.jar
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       
+      - name: Execute Gradle build
+        run: ./gradlew build
       
       - name: Add secrets to Task Definition
         run: |
