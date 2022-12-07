@@ -18,6 +18,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
+
+      - name: Setting JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: 1.8
+      
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      
+      - name: Execute Gradle build
+        run: ./gradlew build
+      
       - name: Add secrets to Task Definition
         run: |
           sed -i "s/<jwt_secret>/$JWT_SECRET/g" task-definition/main.json 
