@@ -10,10 +10,8 @@ ARG MONGO_URI
 ENV JWT_SECRET=$JWT_SECRET
 ENV MONGO_URI=$MONGO_URI
 
-EXPOSE 8080
-
 ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
+ADD ${JAR_FILE} app.jar
 
-
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app.jar"]
