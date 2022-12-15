@@ -60,8 +60,9 @@ class JwtTokenService(
         private const val hours = 24
         private const val minutes = 60
         private const val seconds = 60
-        private const val millisseconds = 1000
-        const val JWT_TOKEN_VALIDITY = days * hours * minutes * seconds * millisseconds
+        private const val milliseconds = 1000
+        private const val days_total = days * hours * minutes * seconds * milliseconds
+        const val JWT_TOKEN_VALIDITY = days_total
     }
 
 }
